@@ -1,1 +1,1 @@
-# sping-mass-damper-Sindy
+# README
