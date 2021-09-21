@@ -33,7 +33,7 @@ def main():
         page_icon=':eyeglasses:',
         # layout='wide'
     )
-    st.title('Discover spring constant and damping coefficient for spring-mass-damping system')
+    st.title('Discover spring constant and damping coefficient for spring-mass-damper system')
 
     # level 1 font
     st.markdown("""
@@ -60,9 +60,49 @@ def main():
     st.markdown('<p class="L2">developed by Xiaoyu Xie and Zhengtao Gan.</p>', unsafe_allow_html=True)
     #########################Objectives#########################
 
-    # st.markdown('<p class="L1">Objectives</p>', unsafe_allow_html=True)
+    st.markdown('<p class="L1">Motion data:</p>', unsafe_allow_html=True)
+    st.markdown('<p class="L2">Videos:</p>', unsafe_allow_html=True)
+    str_1 = """[1. Video 1 (k=8 N/m)](https://drive.google.com/file/d/1WcL1O7lfkz8xi4GQlT8x0rMrPIORAhw7/view?usp=sharing)"""
+    st.markdown(str_1)
+    str_2 = """[2. Video 2 (k=20 N/m)](https://drive.google.com/file/d/10OhbvmiKqNfuLQmIpkJRmHm0lnsjMpu3/view?usp=sharing)"""
+    st.markdown(str_2)
 
-    list = np.loadtxt(open("src/k8.csv","rb"),delimiter=",",skiprows=1)
+    st.markdown('<p class="L2">Extracted motion data:</p>', unsafe_allow_html=True)
+    str_3 = """[1. Motion data from Video 1 (k=8 N/m)](https://drive.google.com/file/d/1DLkB0IbYkyA1jkjjBpqtte_5aln2qJnK/view?usp=sharing)"""
+    st.markdown(str_3)
+    str_3 = """[2. Motion data from Video 2 (k=20 N/m)](https://drive.google.com/file/d/1DLkB0IbYkyA1jkjjBpqtte_5aln2qJnK/view?usp=sharing)"""
+    st.markdown(str_3)
+
+
+
+    st.markdown('<p class="L1">Load motion data:</p>', unsafe_allow_html=True)
+    flag = ['Dataset from Video 1 (k=8 N/m)', 'Dataset from Video 2 (k=20 N/m)', 'New dataset']
+    st.markdown('<p class="L2">Chosse a new dataset or use default dataset:</p>',
+                unsafe_allow_html=True)
+    use_new_data = st.selectbox('', flag, 1)
+
+    # load dataset
+    if use_new_data == 'New dataset':
+        uploaded_file = st.file_uploader(
+            'Choose a CSV file', accept_multiple_files=False)
+
+    # button_dataset = st.button('Click once you have selected a dataset')
+    # if button_dataset:
+    # load dataset
+    if use_new_data == 'New dataset':
+        data = io.BytesIO(uploaded_file.getbuffer())
+        df = pd.read_csv(data)
+    elif use_new_data == 'Dataset from Video 1 (k=8 N/m)':
+        file_path = 'src/k8.csv'
+        # df = pd.read_csv(file_path)
+        list = np.loadtxt(open(file_path,"rb"),delimiter=",",skiprows=1)
+    elif use_new_data == 'Dataset from Video 2 (k=20 N/m)':
+        file_path = 'src/k20.csv'
+        # df = pd.read_csv(file_path)
+        list = np.loadtxt(open(file_path,"rb"),delimiter=",",skiprows=1)
+
+
+    # list = np.loadtxt(open("src/k8.csv","rb"),delimiter=",",skiprows=1)
     X=list[:,2]
     t=list[:,0]
     #print(X)
@@ -89,13 +129,7 @@ def main():
     # #ax.set_ylim(-6.5, 2.5)
 
     # st.pyplot(fig)
-
-    st.markdown('<p class="L2">Videos:</p>', unsafe_allow_html=True)
-    str_1 = """[1. Camera 1 (k=8 N/m)](https://drive.google.com/file/d/1WcL1O7lfkz8xi4GQlT8x0rMrPIORAhw7/view?usp=sharing)"""
-    st.markdown(str_1)
-    str_2 = """[2. Camera 2 (k=20 N/m)](https://drive.google.com/file/d/10OhbvmiKqNfuLQmIpkJRmHm0lnsjMpu3/view?usp=sharing)"""
-    st.markdown(str_2)
-
+    
     global ratio
     st.markdown('<p class="L2">Select a ratio to show data:</p>',
                 unsafe_allow_html=True)
@@ -105,7 +139,7 @@ def main():
     plt.plot(t[:show_length], X[:show_length])
     plt.xlabel('t', fontsize=30)
     plt.ylabel(f'z', fontsize=30)
-    # plt.title(f'x (Camera {chosen_line})', fontsize=34)
+    # plt.title(f'x (Video {chosen_line})', fontsize=34)
     plt.tick_params(labelsize=26)
     plt.tight_layout()
     st.pyplot(fig, clear_figure=True)
@@ -159,7 +193,8 @@ def main():
     st.markdown('<p class="L2">Fitting performance: the coefficient of determination is {}</p>'.format(
     round(r_sq, 2)), unsafe_allow_html=True)
 
-    m=0.1
+    st.markdown('<p class="L2">Set the mass:</p>', unsafe_allow_html=True)
+    m = float(st.text_input('', 0.1))
     k=-model.coef_[0]*m
     c=-model.coef_[1]*m
 
