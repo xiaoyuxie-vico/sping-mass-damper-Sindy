@@ -34,7 +34,7 @@ def main():
         # layout='wide'
     )
     st.title('Discover spring constant and damping coefficient for spring-mass-damping system')
-	st.write('developed by Xiaoyu Xie and Zhengtao Gan.')
+    st.write('developed by Xiaoyu Xie and Zhengtao Gan.')
 
     # level 1 font
     st.markdown("""
