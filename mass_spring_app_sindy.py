@@ -154,7 +154,30 @@ def main():
     Z_2dot = np.stack((z_2dot), axis=-1)  # First column is x, second is y
     #print(Z_dot)
 
-    col1, col2 = st.beta_columns(2)
+    # col1, col2 = st.beta_columns(2)
+    # with col1:
+    #     fig = plt.figure(figsize=(8,6))
+    #     ax = fig.add_subplot(111)
+    #     ax.plot(t[:show_length], z_dot[:show_length], '-', color='blue')
+    #     ax.set_xlabel("Time (s)",fontsize=20)
+    #     ax.set_ylabel(r"$\dot{z} $", fontsize=30)
+    #     ax.tick_params(labelsize=20)
+    #     #ax.set_xlim(-0.05, 1.05)
+    #     #ax.set_ylim(-6.5, 2.5)
+    #     st.pyplot(fig, clear_figure=True)
+
+    # with col2:
+    #     fig = plt.figure(figsize=(8,6))
+    #     ax = fig.add_subplot(111)
+    #     ax.plot(t[:show_length], z_2dot[:show_length], '-', color='blue')
+    #     ax.set_xlabel("Time (s)",fontsize=20)
+    #     ax.set_ylabel(r"$\ddot{z} $", fontsize=30)
+    #     ax.tick_params(labelsize=20)
+    #     #ax.set_xlim(-0.05, 1.05)
+    #     #ax.set_ylim(-6.5, 2.5)
+    #     st.pyplot(fig, clear_figure=True)
+
+    col1, col2 = st.columns(2)
     with col1:
         fig = plt.figure(figsize=(8,6))
         ax = fig.add_subplot(111)
@@ -174,8 +197,8 @@ def main():
         ax.set_ylabel(r"$\ddot{z} $", fontsize=30)
         ax.tick_params(labelsize=20)
         #ax.set_xlim(-0.05, 1.05)
-        #ax.set_ylim(-6.5, 2.5)
-        st.pyplot(fig, clear_figure=True)
+        #ax
+
 
 
     theta1 = z
